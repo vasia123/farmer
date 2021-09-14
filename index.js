@@ -55,7 +55,7 @@ async function sign(actions) {
       farm.reqTask()
     }
   } catch(e) {
-    document.getElementById('response').append(e.message);
+    document.getElementById('loginresponse').append(e.message);
     if (farm.taskList.length) {
       farm.reqTask()
     }
@@ -66,24 +66,28 @@ async function first_sign() {
   if(!wax.api) {
     return alert('请先登录')
   }
-  const result = await wax.api.transact({
-    actions: [{
-      account: 'farmersworld',
-      name: 'recover',
-      authorization: [{
-        actor: wax.userAccount,
-        permission: 'active',
-      }],
-      data: {
-        owner: wax.userAccount,
-        energy_recovered: 1
-      },
-    }]
-  }, {
-    blocksBehind: 3,
-    expireSeconds: 30
-  });
-  console.log(result)
+  try {
+    const result = await wax.api.transact({
+      actions: [{
+        account: 'farmersworld',
+        name: 'recover',
+        authorization: [{
+          actor: wax.userAccount,
+          permission: 'active',
+        }],
+        data: {
+          owner: wax.userAccount,
+          energy_recovered: 1
+        },
+      }]
+    }, {
+      blocksBehind: 3,
+      expireSeconds: 30
+    });
+    $('#first_sign').hide()
+  } catch(e) {
+    document.getElementById('loginresponse').append(e.message);
+  }
 }
 
 const farm = {

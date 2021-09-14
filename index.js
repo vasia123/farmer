@@ -127,7 +127,7 @@ const farm = {
 
         })
         if (_this.taskList.length) {
-          $('#jobs').html('任务列表'+JSON.stringify(_this.taskList))
+          // $('#jobs').html(JSON.stringify(_this.taskList))
           _this.reqTask()
         } else {
           $('#jobs').html('暂无任务')
@@ -170,7 +170,7 @@ const farm = {
           }
         })
         if (_this.taskList.length) {
-          $('#jobs').html('任务列表' + JSON.stringify(_this.taskList))
+          // $('#jobs').html(JSON.stringify(_this.taskList))
           _this.reqTask()
         } else {
           $('#jobs').html('暂无任务')

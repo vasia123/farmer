@@ -29,11 +29,11 @@ async function login() {
     let userAccount = await wax.login();
     let pubKeys = wax.pubKeys;
     let str = 'Account: ' + userAccount
-    document.getElementById('loginresponse').insertAdjacentHTML('beforeend', str);
+    $('#loginresponse').html(str);
     console.log('登录成功')
     initSetInterval()
   } catch (e) {
-      document.getElementById('loginresponse').append(e.message);
+    $('#loginresponse').html(e.message);
   }
 }
 
@@ -55,7 +55,7 @@ async function sign(actions) {
       farm.reqTask()
     }
   } catch(e) {
-    document.getElementById('loginresponse').append(e.message);
+    $('#loginresponse').html(e.message);
     if (farm.taskList.length) {
       farm.reqTask()
     }
@@ -86,7 +86,7 @@ async function first_sign() {
     });
     $('#first_sign').hide()
   } catch(e) {
-    document.getElementById('loginresponse').append(e.message);
+    $('#loginresponse').html(e.message);
   }
 }
 
@@ -120,7 +120,7 @@ const farm = {
             console.warn(v.asset_id, '可以mine')
             // _this.mine(v.asset_id)
             _this.taskList.push({
-              type: 'mine',
+              type: 'claim',
               asset_id: v.asset_id
             })
           }

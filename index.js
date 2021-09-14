@@ -62,6 +62,30 @@ async function sign(actions) {
   }
 }
 
+async function first_sign() {
+  if(!wax.api) {
+    return alert('请先登录')
+  }
+  const result = await wax.api.transact({
+    actions: [{
+      account: 'farmersworld',
+      name: 'recover',
+      authorization: [{
+        actor: wax.userAccount,
+        permission: 'active',
+      }],
+      data: {
+        owner: wax.userAccount,
+        energy_recovered: 1
+      },
+    }]
+  }, {
+    blocksBehind: 3,
+    expireSeconds: 30
+  });
+  console.log(result)
+}
+
 const farm = {
   toolList: [],
   taskList: [],

@@ -205,7 +205,7 @@ const farm = {
           $('#accounts').html(JSON.stringify(res.rows[0].balances))
           $('#energy').html('当前体力值：' +JSON.stringify(res.rows[0].energy))
           $('#max').html('最大体力值：' +JSON.stringify(res.rows[0].max_energy))
-          if(res.rows[0].energy<100){
+          if(res.rows[0].energy<150){
             _this.recover(res.rows[0].max_energy-res.rows[0].energy)
           }
         }

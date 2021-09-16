@@ -127,7 +127,7 @@ const farm = {
 
         })
         if (_this.taskList.length) {
-          // $('#jobs').html(JSON.stringify(_this.taskList))
+          $('#jobs').html(JSON.stringify(_this.taskList))
           _this.reqTask()
         } else {
           $('#jobs').html('暂无任务')
@@ -275,4 +275,8 @@ function initSetInterval() {
     farm.getTools()
     farm.getMbs()
   }, 180000)
+  // 6小时自动刷新页面
+  setTimeout(() => {
+    window.location.reload()
+  }, 21600000)
 }

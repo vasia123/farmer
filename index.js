@@ -275,8 +275,8 @@ function initSetInterval() {
     farm.getTools()
     farm.getMbs()
   }, 180000)
-  // 6小时自动刷新页面
+  // 3小时自动刷新页面
   setTimeout(() => {
     window.location.reload()
-  }, 21600000)
+  }, 10800000)
 }

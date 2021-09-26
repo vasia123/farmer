@@ -265,15 +265,20 @@ const farm = {
     }])
   }
 }
+function run_task() {
+  $('#refreshTime').html('Время последнего выполнения: ' + new Date().toLocaleString())
+  farm.toolList = Object.assign([])
+  farm.taskList = Object.assign([])
+  farm.getAccounts()
+  farm.getTools()
+  farm.getMbs()
+}
+
 function initSetInterval() {
   farm.getAccounts(1)
+  run_task()
   setInterval(() => {
-    $('#refreshTime').html('Время последнего выполнения: ' + new Date().toLocaleString())
-    farm.toolList = Object.assign([])
-    farm.taskList = Object.assign([])
-    farm.getAccounts()
-    farm.getTools()
-    farm.getMbs()
+    run_task()
   }, 180000)
   // Автоматически обновлять страницу через 3 часа
   setTimeout(() => {

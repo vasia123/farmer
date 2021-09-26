@@ -19,7 +19,7 @@ async function autoLogin() {
       initSetInterval()
     }
     else {
-      document.getElementById('autologin').insertAdjacentHTML('beforeend', '请先手动登录一次并勾选自动登录');
+      document.getElementById('autologin').insertAdjacentHTML('beforeend', 'Пожалуйста, войдите в систему вручную один раз и проверьте автоматический вход');
     }
 }
 
@@ -30,7 +30,7 @@ async function login() {
     let pubKeys = wax.pubKeys;
     let str = 'Account: ' + userAccount
     $('#loginresponse').html(str);
-    console.log('登录成功')
+    console.log('Вход выполнен успешно')
     initSetInterval()
   } catch (e) {
     $('#loginresponse').html(e.message);
@@ -40,7 +40,7 @@ async function login() {
 async function sign(actions) {
   const _this = this
   if(!wax.api) {
-    return alert('请先登录')
+    return alert('Пожалуйста, войдите сначала')
   }
 
   try {
@@ -64,7 +64,7 @@ async function sign(actions) {
 
 async function first_sign() {
   if(!wax.api) {
-    return alert('请先登录')
+    return alert('Пожалуйста, войдите сначала')
   }
   try {
     const result = await wax.api.transact({
@@ -106,9 +106,9 @@ const farm = {
         $('#tools').html(JSON.stringify(_this.toolList))
         const now = parseInt(new Date().getTime() / 1000)
         _this.toolList.map(async v => {
-          // 恢复耐久
+          // Долговечность восстановления
           if (v.current_durability < 20) {
-            console.warn(v.asset_id, '可以修复')
+            console.warn(v.asset_id, 'Можно отремонтировать')
             // _this.repair(v.asset_id)
             _this.taskList.push({
               type: 'repair',
@@ -117,7 +117,7 @@ const farm = {
           }
           // mine
           if (now >= v.next_availability) {
-            console.warn(v.asset_id, '可以mine')
+            console.warn(v.asset_id, 'Может майнить')
             // _this.mine(v.asset_id)
             _this.taskList.push({
               type: 'claim',
@@ -130,7 +130,7 @@ const farm = {
           $('#jobs').html(JSON.stringify(_this.taskList))
           _this.reqTask()
         } else {
-          $('#jobs').html('暂无任务')
+          $('#jobs').html('Нет задач')
         }
       }
     })
@@ -162,7 +162,7 @@ const farm = {
         _this.toolList.map(async (v) => {
           // mine
           if (now >= v.next_availability) {
-            console.warn(v.asset_id, '可以mine')
+            console.warn(v.asset_id, 'Может майнить')
             _this.taskList.push({
               type: 'mbsclaim',
               asset_id: v.asset_id,
@@ -173,7 +173,7 @@ const farm = {
           // $('#jobs').html(JSON.stringify(_this.taskList))
           _this.reqTask()
         } else {
-          $('#jobs').html('暂无任务')
+          $('#jobs').html('Нет задачи')
         }
       },
     })
@@ -203,8 +203,8 @@ const farm = {
           $('#origin_accounts').html(JSON.stringify(res.rows[0].balances))
         } else {
           $('#accounts').html(JSON.stringify(res.rows[0].balances))
-          $('#energy').html('当前体力值：' +JSON.stringify(res.rows[0].energy))
-          $('#max').html('最大体力值：' +JSON.stringify(res.rows[0].max_energy))
+          $('#energy').html('Текущая энергия：' +JSON.stringify(res.rows[0].energy))
+          $('#max').html('Максимальная энергия：' +JSON.stringify(res.rows[0].max_energy))
           if(res.rows[0].energy<150){
             _this.recover(res.rows[0].max_energy-res.rows[0].energy)
           }
@@ -268,14 +268,14 @@ const farm = {
 function initSetInterval() {
   farm.getAccounts(1)
   setInterval(() => {
-    $('#refreshTime').html('最近执行时间: ' + new Date().toLocaleString())
+    $('#refreshTime').html('Время последнего выполнения: ' + new Date().toLocaleString())
     farm.toolList = Object.assign([])
     farm.taskList = Object.assign([])
     farm.getAccounts()
     farm.getTools()
     farm.getMbs()
   }, 180000)
-  // 3小时自动刷新页面
+  // Автоматически обновлять страницу через 3 часа
   setTimeout(() => {
     window.location.reload()
   }, 10800000)

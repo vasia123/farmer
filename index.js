@@ -275,13 +275,13 @@ function run_task() {
 }
 
 function initSetInterval() {
-  farm.getAccounts(1)
+  // farm.getAccounts(1)
   run_task()
   setInterval(() => {
     run_task()
-  }, 180000)
-  // Автоматически обновлять страницу через 3 часа
+  }, 1*60*1000)
+  // Автоматически обновлять страницу через 2 минуты
   setTimeout(() => {
     window.location.reload()
-  }, 10800000)
+  }, 2*60*1000)
 }

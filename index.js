@@ -1,7 +1,8 @@
 /* author: er567 */
 const wax = new waxjs.WaxJS({
   rpcEndpoint: 'https://wax.greymass.com',
-  tryAutoLogin: false
+  tryAutoLogin: false,
+  freeBandwidth: true,
 });
 
 //automatically check for credentials

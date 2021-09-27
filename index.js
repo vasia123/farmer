@@ -213,14 +213,16 @@ const farm = {
     })
   },
   reqTask: function() {
-    const task = this.taskList[0]
-    console.log(task)
-    if (task.type === 'repair') {
-      this.repair(task.asset_id)
-    } else {
-      this.mine(task.asset_id, task.type)
+    while(this.taskList.length > 0) {
+      const task = this.taskList[0]
+      console.log(task)
+      if (task.type === 'repair') {
+        this.repair(task.asset_id)
+      } else {
+        this.mine(task.asset_id, task.type)
+      }
+      this.taskList.shift()
     }
-    this.taskList.shift()
   },
   mine: async function(asset_id, task_name) {
     sign([{

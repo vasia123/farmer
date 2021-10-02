@@ -206,7 +206,7 @@ const farm = {
           $('#accounts').html(JSON.stringify(res.rows[0].balances))
           $('#energy').html('Текущая энергия：' +JSON.stringify(res.rows[0].energy))
           $('#max').html('Максимальная энергия：' +JSON.stringify(res.rows[0].max_energy))
-          if(res.rows[0].energy<150){
+          if(res.rows[0].energy<25){
             _this.recover(parseInt((res.rows[0].max_energy - res.rows[0].energy)/5)*5)
           }
         }

@@ -324,7 +324,11 @@ const farm = {
     while(this.taskList.length > 0) {
       const task = this.taskList[0]
       console.log('task.type', task.type, task.asset_id)
-      this[task.type](task.asset_id)
+      if (typeof this[task.type] !== "undefined") {
+        this[task.type](task.asset_id)
+      } else {
+        this.mine(task.asset_id, task.type)
+      }
       this.taskList.shift()
     }
   },

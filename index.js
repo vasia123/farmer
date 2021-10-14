@@ -93,6 +93,7 @@ async function first_sign() {
 
 const farm = {
   toolList: [],
+  buildinglList: [],
   taskList: [],
   getTools: function() {
     const _this = this
@@ -206,9 +207,54 @@ const farm = {
           $('#accounts').html(JSON.stringify(res.rows[0].balances))
           $('#energy').html('Текущая энергия：' +JSON.stringify(res.rows[0].energy))
           $('#max').html('Максимальная энергия：' +JSON.stringify(res.rows[0].max_energy))
-          if(res.rows[0].energy<10){
+          if(res.rows[0].energy<200){
             _this.recover(parseInt((res.rows[0].max_energy - res.rows[0].energy)/5)*5)
           }
+        }
+      }
+    })
+  },
+  getBldsClaim: function () {
+    $.ajax({
+      contentType: 'application/json; charset=utf-8',
+      dataType: 'json',
+      type: 'POST',
+      url: 'https://api.wax.alohaeos.com/v1/chain/get_table_rows',
+      data: JSON.stringify({
+        code: "farmersworld",
+        index_position: 2,
+        json: true,
+        key_type: "i64",
+        limit: "100",
+        lower_bound: wax.userAccount,
+        reverse: false,
+        scope: "farmersworld",
+        show_payer: false,
+        table: "buildings",
+        upper_bound: wax.userAccount
+      }),
+      success: function (res) {
+        // TODO: stake asset_id
+        _this.buildinglList = res.rows
+        $('#buildings').html(JSON.stringify(_this.buildinglList))
+        const now = parseInt(new Date().getTime() / 1000)
+        _this.buildinglList.map(async (v) => {
+          // mine
+          if (!is_ready) {
+            if (now >= v.next_availability) {
+              console.warn(v.asset_id, 'Может строиться')
+              _this.taskList.push({
+                type: 'bldclaim',
+                asset_id: v.asset_id,
+              })
+            }
+          }
+        })
+        if (_this.taskList.length) {
+          // $('#jobs').html(JSON.stringify(_this.taskList))
+          _this.reqTask()
+        } else {
+          $('#jobs').html('Нет задачи')
         }
       }
     })
@@ -229,6 +275,20 @@ const farm = {
     sign([{
       account: 'farmersworld',
       name: task_name,
+      authorization: [{
+        actor: wax.userAccount,
+        permission: 'active',
+      }],
+      data: {
+        owner: wax.userAccount,
+        asset_id: asset_id
+      },
+    }])
+  },
+  bldclaim: async function(asset_id) {
+    sign([{
+      account: 'farmersworld',
+      name: 'bldclaim',
       authorization: [{
         actor: wax.userAccount,
         permission: 'active',
@@ -275,6 +335,7 @@ function run_task() {
   farm.getAccounts()
   farm.getTools()
   farm.getMbs()
+  farm.getBldsClaim()
 }
 
 function initSetInterval() {

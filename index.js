@@ -304,10 +304,10 @@ const farm = {
             if(_this.energy<45){
               _this.recover(45)
             } else {
-              _this.taskList.push({
+              /*_this.taskList.push({
                 type: 'cropclaim',
                 asset_id: v.asset_id,
-              })
+              })*/
             }
           }
         })

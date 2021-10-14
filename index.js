@@ -315,6 +315,7 @@ const farm = {
       if (task.type === 'mine') {
         this.mine(task.asset_id, task.type)
       } else {
+        console.log('task.type', task.type, task.asset_id)
         this[task.type](task.asset_id)
       }
       this.taskList.shift()

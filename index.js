@@ -215,6 +215,7 @@ const farm = {
     })
   },
   getBldsClaim: function () {
+    const _this = this
     $.ajax({
       contentType: 'application/json; charset=utf-8',
       dataType: 'json',

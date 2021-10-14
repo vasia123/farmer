@@ -312,10 +312,10 @@ const farm = {
     while(this.taskList.length > 0) {
       const task = this.taskList[0]
       console.log(task)
-      if (task.type === 'repair') {
-        this.repair(task.asset_id)
-      } else {
+      if (task.type === 'mine') {
         this.mine(task.asset_id, task.type)
+      } else {
+        this[task.type](task.asset_id)
       }
       this.taskList.shift()
     }

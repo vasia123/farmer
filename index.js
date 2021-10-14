@@ -95,6 +95,7 @@ const farm = {
   toolList: [],
   buildinglList: [],
   taskList: [],
+  energy: 0,
   getTools: function() {
     const _this = this
     $.ajax({
@@ -121,10 +122,14 @@ const farm = {
           if (now >= v.next_availability) {
             console.warn(v.asset_id, 'Может майнить')
             // _this.mine(v.asset_id)
-            _this.taskList.push({
-              type: 'claim',
-              asset_id: v.asset_id
-            })
+            if(_this.energy<45){
+              _this.recover(45)
+            } else {
+              _this.taskList.push({
+                type: 'claim',
+                asset_id: v.asset_id
+              })
+            }
           }
 
         })
@@ -205,11 +210,9 @@ const farm = {
           $('#origin_accounts').html(JSON.stringify(res.rows[0].balances))
         } else {
           $('#accounts').html(JSON.stringify(res.rows[0].balances))
+          _this.energy = res.rows[0].energy
           $('#energy').html('Текущая энергия：' +JSON.stringify(res.rows[0].energy))
           $('#max').html('Максимальная энергия：' +JSON.stringify(res.rows[0].max_energy))
-          if(res.rows[0].energy<10){
-            _this.recover(parseInt((res.rows[0].max_energy - res.rows[0].energy)/5)*5)
-          }
         }
       }
     })
@@ -244,10 +247,15 @@ const farm = {
           if (!v.is_ready) {
             if (now >= v.next_availability) {
               console.warn(v.asset_id, 'Может строиться')
-              _this.taskList.push({
-                type: 'bldclaim',
-                asset_id: v.asset_id,
-              })
+
+              if(_this.energy<45){
+                _this.recover(45)
+              } else {
+                _this.taskList.push({
+                  type: 'bldclaim',
+                  asset_id: v.asset_id,
+                })
+              }
             }
           } else {
             if (v.slots_used > 0) {
@@ -293,10 +301,14 @@ const farm = {
           // mine
           if (now >= v.next_availability) {
             console.warn(v.asset_id, 'Может поливаться')
-            _this.taskList.push({
-              type: 'cropclaim',
-              asset_id: v.asset_id,
-            })
+            if(_this.energy<45){
+              _this.recover(45)
+            } else {
+              _this.taskList.push({
+                type: 'cropclaim',
+                asset_id: v.asset_id,
+              })
+            }
           }
         })
         if (_this.taskList.length) {
@@ -311,13 +323,8 @@ const farm = {
   reqTask: function() {
     while(this.taskList.length > 0) {
       const task = this.taskList[0]
-      console.log(task)
-      if (task.type === 'mine') {
-        this.mine(task.asset_id, task.type)
-      } else {
-        console.log('task.type', task.type, task.asset_id)
-        this[task.type](task.asset_id)
-      }
+      console.log('task.type', task.type, task.asset_id)
+      this[task.type](task.asset_id)
       this.taskList.shift()
     }
   },
@@ -325,6 +332,20 @@ const farm = {
     sign([{
       account: 'farmersworld',
       name: task_name,
+      authorization: [{
+        actor: wax.userAccount,
+        permission: 'active',
+      }],
+      data: {
+        owner: wax.userAccount,
+        asset_id: asset_id
+      },
+    }])
+  },
+  claim: async function(asset_id) {
+    sign([{
+      account: 'farmersworld',
+      name: 'claim',
       authorization: [{
         actor: wax.userAccount,
         permission: 'active',

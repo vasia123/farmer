@@ -246,7 +246,7 @@ const farm = {
               console.warn(v.asset_id, 'Может строиться')
               _this.taskList.push({
                 type: 'bldclaim',
-                asset_id: parseInt(v.asset_id),
+                asset_id: v.asset_id,
               })
             }
           } else {
@@ -295,7 +295,7 @@ const farm = {
             console.warn(v.asset_id, 'Может поливаться')
             _this.taskList.push({
               type: 'cropclaim',
-              asset_id: parseInt(v.asset_id),
+              asset_id: v.asset_id,
             })
           }
         })
@@ -349,7 +349,7 @@ const farm = {
     }])
   },
   cropclaim: async function(asset_id) {
-    sign([{
+    var transaction = [{
       account: 'farmersworld',
       name: 'cropclaim',
       authorization: [{
@@ -360,7 +360,9 @@ const farm = {
         owner: wax.userAccount,
         crop_id: asset_id
       },
-    }])
+    }]
+    console.log('transaction', transaction)
+    sign(transaction)
   },
   repair: async function(asset_id) {
     sign([{

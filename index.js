@@ -221,21 +221,21 @@ const farm = {
       type: 'POST',
       url: 'https://api.wax.alohaeos.com/v1/chain/get_table_rows',
       data: JSON.stringify({
-        code: "farmersworld",
-        index_position: 2,
-        json: true,
-        key_type: "i64",
-        limit: "100",
-        lower_bound: wax.userAccount,
-        reverse: false,
-        scope: "farmersworld",
-        show_payer: false,
-        table: "buildings",
-        upper_bound: wax.userAccount
+        "json": true,
+        "code": "farmersworld",
+        "scope": "farmersworld",
+        "table": "buildings",
+        "lower_bound": wax.userAccount,
+        "upper_bound": wax.userAccount,
+        "index_position": 2,
+        "key_type": "i64",
+        "limit": "100",
+        "reverse": false,
+        "show_payer": false
       }),
       success: function (res) {
         // TODO: stake asset_id
-        _this.buildinglList = res.rows
+        _this.buildinglList = [..._this.toolList,...res.rows]
         $('#buildings').html(JSON.stringify(_this.buildinglList))
         const now = parseInt(new Date().getTime() / 1000)
         _this.buildinglList.map(async (v) => {

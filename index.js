@@ -236,12 +236,12 @@ const farm = {
       }),
       success: function (res) {
         // TODO: stake asset_id
-        _this.buildinglList = [..._this.toolList,...res.rows]
+        _this.buildinglList = [...res.rows]
         $('#buildings').html(JSON.stringify(_this.buildinglList))
         const now = parseInt(new Date().getTime() / 1000)
         _this.buildinglList.map(async (v) => {
           // mine
-          if (!is_ready) {
+          if (!v.is_ready) {
             if (now >= v.next_availability) {
               console.warn(v.asset_id, 'Может строиться')
               _this.taskList.push({

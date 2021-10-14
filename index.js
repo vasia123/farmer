@@ -249,6 +249,54 @@ const farm = {
                 asset_id: v.asset_id,
               })
             }
+          } else {
+            if (v.slots_used > 0) {
+              farm.getCrops()
+            }
+          }
+        })
+        if (_this.taskList.length) {
+          // $('#jobs').html(JSON.stringify(_this.taskList))
+          _this.reqTask()
+        } else {
+          $('#jobs').html('Нет задачи')
+        }
+      }
+    })
+  },
+  getCrops: function () {
+    const _this = this
+    $.ajax({
+      contentType: 'application/json; charset=utf-8',
+      dataType: 'json',
+      type: 'POST',
+      url: 'https://api.wax.alohaeos.com/v1/chain/get_table_rows',
+      data: JSON.stringify({
+        "json": true,
+        "code": "farmersworld",
+        "scope": "farmersworld",
+        "table": "crops",
+        "lower_bound": wax.userAccount,
+        "upper_bound": wax.userAccount,
+        "index_position": 2,
+        "key_type": "i64",
+        "limit": "100",
+        "reverse": false,
+        "show_payer": false
+      }),
+      success: function (res) {
+        // TODO: stake asset_id
+        var cropslList = [...res.rows]
+        $('#crops').html(JSON.stringify(cropslList))
+        const now = parseInt(new Date().getTime() / 1000)
+        cropslList.map(async (v) => {
+          // mine
+          if (now >= v.next_availability) {
+            console.warn(v.asset_id, 'Может поливаться')
+            _this.taskList.push({
+              type: 'cropclaim',
+              asset_id: v.asset_id,
+            })
           }
         })
         if (_this.taskList.length) {
@@ -297,6 +345,20 @@ const farm = {
       data: {
         owner: wax.userAccount,
         asset_id: asset_id
+      },
+    }])
+  },
+  cropclaim: async function(asset_id) {
+    sign([{
+      account: 'farmersworld',
+      name: 'cropclaim',
+      authorization: [{
+        actor: wax.userAccount,
+        permission: 'active',
+      }],
+      data: {
+        owner: wax.userAccount,
+        crop_id: asset_id
       },
     }])
   },

@@ -246,7 +246,7 @@ const farm = {
               console.warn(v.asset_id, 'Может строиться')
               _this.taskList.push({
                 type: 'bldclaim',
-                asset_id: v.asset_id,
+                asset_id: parseInt(v.asset_id),
               })
             }
           } else {
@@ -295,7 +295,7 @@ const farm = {
             console.warn(v.asset_id, 'Может поливаться')
             _this.taskList.push({
               type: 'cropclaim',
-              asset_id: v.asset_id,
+              asset_id: parseInt(v.asset_id),
             })
           }
         })

@@ -18,9 +18,8 @@ async function autoLogin() {
       document.getElementById('autologin').insertAdjacentHTML('beforeend', str);
       $('#login').hide()
       initSetInterval()
-    }
-    else {
-      document.getElementById('autologin').insertAdjacentHTML('beforeend', 'Пожалуйста, войдите в систему вручную один раз и проверьте автоматический вход');
+    } else {
+      login()
     }
 }
 

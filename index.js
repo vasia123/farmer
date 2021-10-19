@@ -1,6 +1,6 @@
 /* author: er567 */
 const wax = new waxjs.WaxJS({
-  rpcEndpoint: 'https://api.waxsweden.org',
+  rpcEndpoint: 'https://api.wax.alohaeos.com',
   tryAutoLogin: false,
   freeBandwidth: true,
 });

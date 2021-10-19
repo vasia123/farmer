@@ -436,6 +436,7 @@ function initSetInterval() {
   }, 1*60*1000)
   // Автоматически обновлять страницу через 10 минут
   setTimeout(() => {
+    if (wax.signingWindow) wax.signingWindow.close()
     window.location.reload()
   }, 10*60*1000)
 }

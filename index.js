@@ -139,6 +139,7 @@ const farm = {
           $('#jobs').html('Нет задач')
         }
       }
+    })
   },
   getMbs: function () {
     const _this = this

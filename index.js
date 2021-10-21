@@ -121,8 +121,8 @@ const farm = {
           if (now >= v.next_availability) {
             console.warn(v.asset_id, 'Может майнить')
             // _this.mine(v.asset_id)
-            if(_this.energy<45){
-              _this.recover(45)
+            if(_this.energy<20){
+              _this.recover(20)
             } else {
               _this.taskList.push({
                 type: 'claim',
@@ -139,7 +139,6 @@ const farm = {
           $('#jobs').html('Нет задач')
         }
       }
-    })
   },
   getMbs: function () {
     const _this = this

@@ -1,6 +1,6 @@
 /* author: er567 */
 const wax = new waxjs.WaxJS({
-  rpcEndpoint: 'https://api.wax.alohaeos.com',
+  rpcEndpoint: 'https://wax.dapplica.io',
   tryAutoLogin: false,
   freeBandwidth: true,
 });
@@ -101,7 +101,7 @@ const farm = {
       contentType:"application/json; charset=utf-8",
       dataType:"json",
       type: "POST",
-      url: 'https://api.wax.alohaeos.com/v1/chain/get_table_rows',
+      url: 'https://wax.dapplica.io/v1/chain/get_table_rows',
       data: JSON.stringify({"json":true,"code":"farmersworld","scope":"farmersworld","table":"tools","lower_bound":wax.userAccount,"upper_bound":wax.userAccount,"index_position":2,"key_type":"i64","limit":"100","reverse":false,"show_payer":false}),
       success: function(res) {
         _this.toolList = [..._this.toolList,...res.rows]
@@ -147,7 +147,7 @@ const farm = {
       contentType: 'application/json; charset=utf-8',
       dataType: 'json',
       type: 'POST',
-      url: 'https://api.wax.alohaeos.com/v1/chain/get_table_rows',
+      url: 'https://wax.dapplica.io/v1/chain/get_table_rows',
       data: JSON.stringify({
         json: true,
         code: "farmersworld",
@@ -190,7 +190,7 @@ const farm = {
       contentType: 'application/json; charset=utf-8',
       dataType: 'json',
       type: 'POST',
-      url: 'https://api.wax.alohaeos.com/v1/chain/get_table_rows',
+      url: 'https://wax.dapplica.io/v1/chain/get_table_rows',
       data: JSON.stringify({
         code: "farmersworld",
         index_position: 1,
@@ -222,7 +222,7 @@ const farm = {
       contentType: 'application/json; charset=utf-8',
       dataType: 'json',
       type: 'POST',
-      url: 'https://api.wax.alohaeos.com/v1/chain/get_table_rows',
+      url: 'https://wax.dapplica.io/v1/chain/get_table_rows',
       data: JSON.stringify({
         "json": true,
         "code": "farmersworld",
@@ -277,7 +277,7 @@ const farm = {
       contentType: 'application/json; charset=utf-8',
       dataType: 'json',
       type: 'POST',
-      url: 'https://api.wax.alohaeos.com/v1/chain/get_table_rows',
+      url: 'https://wax.dapplica.io/v1/chain/get_table_rows',
       data: JSON.stringify({
         "json": true,
         "code": "farmersworld",
